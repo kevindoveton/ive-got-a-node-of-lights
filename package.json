@@ -1,0 +1,17 @@
+{
+  "name": "light-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bower": "^1.7.10",
+    "express": "^4.15.4",
+    "pug": "^2.0.0-rc.4",
+    "socket.io": "^2.0.3"
+  }
+}
