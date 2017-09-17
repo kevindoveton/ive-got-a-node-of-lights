@@ -1,0 +1,20 @@
+sudo: required
+services:
+- docker
+language: node_js
+node_js:
+- '6'
+cache: yarn
+env:
+  global:
+  - DOCKER_URL="docker.kdoveton.com/"
+  - DOCKER_REPO=lights/server
+  - DOCKER_TAG=latest
+  - secure: av4mM0LrtI15gomLwHU1Zq0qInAGbE5igmFo92mYzU1etc5SfL8ZWwsrmTOWUlxsKWBgYM6PMz1jbSaPpvas4k33Bm56/fXLa/Z5OO/Yrr2EFStUn4e+ZOdAkWFlCB/xGMybpTdRDnYyyd+GWQnU3q3zvq0Q9vMwl+jukUDenKDgFKecGRTEK17Wh2MtzdfcI95BALC9z/BV9Kvzw5+IJ60AkWnN/6+6YxQhcdacAelWSoIFReChzeYya43IfMgUND7WRSQhd79Sa1Wa9/SdoEb/qh/tWxx3ztiP3rTRFfk2SOAQWeiE4qyNg3kUB/Nw4kfqX+xaUkhFdXAKiTq2UVaEHxkG7ap5kcJ1AvPk+S8m5eoKvNvZoAOL+qLZG4dkllxbWaCz2E+PsC+u2xAU9JjypZ3o6kiNqppr7P4skMuFDe5VilR4WGIf0gXxAkrqDkMCqCLsvMO8BWsiPDuKCn75uLBhZBzPF9Xv74T+n+imaNoR0cqeBsESEPu3T0PwOFT5fvSFbwekT64K2YPU5iqsTOgs6S3jlBdsSwUL9K0sWu7Qrm2b/nmxpN8JSkcVkN41pos0hDbzMBSqC2ZfQK7kj31UXtfokVn2GKbVvroRiRJicgddu7qxEUVGOgO0g4vfI/Yk/Q34hQDZ6AFwViN5EcPaKGpyT33ffMHV8Zg=
+  - secure: fupRX5oItnMug9mFqb1UbcRDNIY/VUQ5ZwuVPMClVZwaClEsZ6+WGtw7UZRwqk8Xkg/ggHEYPkV8Ure5dUO+Xq9LGc60Tl31ozrkB+n+C9GoaAU89uHxeAaXwSw7knox51qGItkhDQMla6opjmlDVJ70CGKFd9OmLQWTGewXpfznpfFcD4tmicN1ALfPla3Fx6VzEV7kgx2EIIYMcXWMQl3oPxqTNsh12HBBojmJ4AhcjqNZCZPzQGsfV515p8VEj7CDWvivR4CxkYzFj3qJKf4SbPhMvS38M3T8wa+1v7Tbfqbu/1xKgUf/FNb4FmNJJrnItU90c+wAoyUrjTMhy/OKWcelJOBlTln3yXWS/vtePKX3TWGIQYkQD+B3NouaLRYsdVgNVXve/QQatdde43BDfBNmAwwG/c5Nkt4IxU+RLcd/1nNNEiK41aOhoL3P0nw7ImhPDCflcJcPy9Odr7hG8oQTVtAwLtIKBe4buTvlMj68815XbOBr8n8+HAvNOuZMwtv5OqNtX26uFirapei1cRrd+mftRX7iX9zw1FHqBO/Z2w7O0qxrvFYdA+FoWXND+/jNjVvmXprvLr/XcAZW83VyJ8v8F7/ELG5wW+K8KGHILvaglkd2XFRMTPnOy49yj6KzrhIcIWJJURZkNAh7FpLjhAd8j79o/EfE1a8=
+script:
+- if [ "$TRAVIS_BRANCH" == "master" ]; then docker build -t $DOCKER_URL$DOCKER_REPO\:$DOCKER_TAG
+  .; fi
+- if [ "$TRAVIS_BRANCH" == "master" ]; then docker login $DOCKER_URL -u="$DOCKER_USERNAME"
+  -p="$DOCKER_PASSWORD"; $DOCKER_URL docker push $DOCKER_URL$DOCKER_REPO\:$DOCKER_TAG;
+  fi

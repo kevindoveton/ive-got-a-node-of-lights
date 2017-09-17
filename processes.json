@@ -1,0 +1,18 @@
+{
+  "apps": [
+    {
+      "name": "light-app",
+      "script": "./src/server/www.js",
+      "watch": "./src/",
+      "watch_options": {
+        "usePolling": true,
+        "useFsEvents": false
+      },
+      "autorestart": true,
+      "max_restarts": 1,
+      "env": {
+        "NODE_ENV": "production",
+      }
+    }
+  ]
+}
