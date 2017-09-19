@@ -3,12 +3,21 @@ var CONFIG = {
   sourceFreq: 19500
 }
 
+var colour = 'blue';
+
+
 function findFrequency(freq, sampleRate, fftSize) {
   return Math.round(freq / (sampleRate / fftSize)) || 0;
 }
 
 
 document.addEventListener('DOMContentLoaded', function () {
+
+  var socket = io.connect();
+
+  socket.on('change', function (data) {
+    colour = data.c || 'blue';
+  });
 
   // get audio context - check for webkit
   var context;
@@ -49,17 +58,16 @@ document.addEventListener('DOMContentLoaded', function () {
         if (trigger.first == false) {
           trigger.first = true;
           trigger.time = new Date().getTime();
-          console.log(trigger)
         } else {
           if (trigger.first && new Date().getTime() > trigger.time + 25 ) {
-            document.querySelector('body').style.background = 'blue';
+            document.querySelector('body').style.background = colour;
             trigger.first = false;
-            console.log(trigger)
           }
-          console.log(trigger)
         }
       } else {
-
+        if (trigger.first && new Date().getTime() > trigger.time + 150){
+          trigger.first = false;
+        }
       }
       setTimeout(loop, 25);
     }
