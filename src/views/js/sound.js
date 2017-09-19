@@ -1,9 +1,17 @@
 var CONFIG = {
   threshold: 80,
-  sourceFreq: 19500
+  sourceFreq: 19500,
+  waitTime: 50
 }
 
 var colour = 'blue';
+
+var seqPos = 0;
+var seq = [
+  '#db1c88',
+  '#a514e8',
+  '#5215d6'
+]
 
 
 function findFrequency(freq, sampleRate, fftSize) {
@@ -12,6 +20,8 @@ function findFrequency(freq, sampleRate, fftSize) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
+
+  document.querySelector('body').style.background = 'black';
 
   var socket = io.connect();
 
@@ -41,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var source = context.createMediaStreamSource(stream);
     source.connect(analyser);
     analyser.fftSize = 1024;
+    analyser.smoothingTimeConstant = 0;
 
     var sourceArrayNum = findFrequency(CONFIG.sourceFreq, context.sampleRate, analyser.fftSize)
 
@@ -53,23 +64,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function loop() {
       analyser.getByteFrequencyData(frequencyArray);
-      // console.log(frequencyArray)
+      var curTime = new Date().getTime();
+      
       if (frequencyArray[sourceArrayNum] > CONFIG.threshold) {
+
+        // we are hitting the first trigger
         if (trigger.first == false) {
-          trigger.first = true;
-          trigger.time = new Date().getTime();
+          if (curTime > trigger.time + 25) {
+            trigger.first = true;
+            trigger.time = curTime;
+            console.log(curTime, ' first')
+          }
         } else {
-          if (trigger.first && new Date().getTime() > trigger.time + 25 ) {
-            document.querySelector('body').style.background = colour;
+          // first trigger has happened, check if time for second
+          if ( curTime > trigger.time + 100 ) {
+            // time for second
+            console.log('hit second')
+            document.querySelector('body').style.background = seq[seqPos];
+            seqPos = (seqPos + 1) == seq.length ? 0 : seqPos + 1;
             trigger.first = false;
+            trigger.time = curTime;
+          } else {
+            // before second
+            console.log(curTime, 'noo')
           }
         }
       } else {
-        if (trigger.first && new Date().getTime() > trigger.time + 150){
+        if (trigger.first && curTime > trigger.time + 150) {
+          console.log(curTime, ' end')
           trigger.first = false;
+        } else {
+          // console.log(curTime, ' no')
         }
       }
-      setTimeout(loop, 25);
+      setTimeout(loop, 10);
     }
 
     loop();
