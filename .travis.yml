@@ -16,5 +16,5 @@ script:
 - if [ "$TRAVIS_BRANCH" == "master" ]; then docker build -t $DOCKER_URL$DOCKER_REPO\:$DOCKER_TAG
   .; fi
 - if [ "$TRAVIS_BRANCH" == "master" ]; then docker login $DOCKER_URL -u="$DOCKER_USERNAME"
-  -p="$DOCKER_PASSWORD"; $DOCKER_URL docker push $DOCKER_URL$DOCKER_REPO\:$DOCKER_TAG;
+  -p="$DOCKER_PASSWORD"; docker push $DOCKER_URL$DOCKER_REPO\:$DOCKER_TAG;
   fi

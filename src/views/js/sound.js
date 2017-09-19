@@ -1,5 +1,5 @@
 var CONFIG = {
-  threshold: 100,
+  threshold: 80,
   sourceFreq: 19500
 }
 
@@ -46,19 +46,22 @@ document.addEventListener('DOMContentLoaded', function () {
       analyser.getByteFrequencyData(frequencyArray);
       // console.log(frequencyArray)
       if (frequencyArray[sourceArrayNum] > CONFIG.threshold) {
-        if (trigger == false) {
+        if (trigger.first == false) {
           trigger.first = true;
           trigger.time = new Date().getTime();
+          console.log(trigger)
         } else {
-          if (trigger.first && new Date().getTime() > trigger.time + 50 ) {
+          if (trigger.first && new Date().getTime() > trigger.time + 25 ) {
             document.querySelector('body').style.background = 'blue';
             trigger.first = false;
+            console.log(trigger)
           }
+          console.log(trigger)
         }
       } else {
-        return setTimeout(loop, 50);
-      }
 
+      }
+      setTimeout(loop, 25);
     }
 
     loop();
