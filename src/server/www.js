@@ -13,6 +13,10 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
+app.get('/sound', function (req, res) {
+  res.render('sound');
+});
+
 app.get('/cp', function (req, res) {
   res.render('cp');
 });
