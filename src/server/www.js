@@ -4,10 +4,6 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 const path = require('path');
 
-var browserSync = require('browser-sync');
-var bs = browserSync.create().init({ logSnippet: false });
-app.use(require('connect-browser-sync')(bs));
-
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, '../views/pug'));
 
