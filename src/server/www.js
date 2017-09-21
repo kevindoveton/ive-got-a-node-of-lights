@@ -14,7 +14,9 @@ app.get('/', function (req, res) {
 });
 
 app.get('/sound', function (req, res) {
-  res.render('sound');
+  res.render('sound', {
+    debug: req.query.debug
+  });
 });
 
 app.get('/cp', function (req, res) {

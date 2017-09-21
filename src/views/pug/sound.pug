@@ -2,9 +2,10 @@ doctype html
 html
   head
     link(href="/css/style.css" rel="stylesheet" type="text/css")
-    //- script(src="/js/vendor.js")
+    script(src="/js/vendor.js")
     
-    script(src="https://dev1.kdoveton.com:1337/vorlon.js")
+    if debug == "true"
+      script(src="https://dev1.kdoveton.com:1337/vorlon.js")
     script(src="/socket.io/socket.io.js")
     script(src="/common/js/sound.js")
   body
