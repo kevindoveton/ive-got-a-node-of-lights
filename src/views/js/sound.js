@@ -37,7 +37,6 @@ if (typeof AudioContext !== "undefined") {
   context = new webkitAudioContext();
 } else {
   alert('Get a newer browser!');
-  return;
 }
 
 
