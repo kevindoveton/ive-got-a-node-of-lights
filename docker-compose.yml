@@ -2,13 +2,9 @@ version: '2'
 
 services:            
   app:
+    build: .
     image: docker.kdoveton.com/lights/app
-    expose:
-      - 3000
+    ports:
+      - 3000:3000
     volumes:
       - ./src:/var/www/app/current/src/
-    environment:
-      - VIRTUAL_HOST=dev1.kdoveton.com
-      - LETSENCRYPT_HOST=dev1.kdoveton.com
-      - LETSENCRYPT_EMAIL=newsletters-letsencrpyt@kdoveton.com
-      - HTTPS_METHOD=redirect

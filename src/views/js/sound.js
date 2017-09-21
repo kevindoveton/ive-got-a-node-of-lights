@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var socket = io.connect();
 
   socket.on('change', function (data) {
-    colour = data.c || 'blue';
+    colour = data.c || '#000000';
   });
 
   // get audio context - check for webkit
@@ -40,7 +40,10 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  var soundAllowed = function(stream) {
+
+  navigator.mediaDevices.getUserMedia({
+    audio: true
+  }).then(function(stream) {
     //Audio stops listening in FF without // window.persistAudioStream = stream;
     //https://bugzilla.mozilla.org/show_bug.cgi?id=965483
     //https://support.mozilla.org/en-US/questions/984179
@@ -65,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function loop() {
       analyser.getByteFrequencyData(frequencyArray);
       var curTime = new Date().getTime();
-      
+
       if (frequencyArray[sourceArrayNum] > CONFIG.threshold) {
 
         // we are hitting the first trigger
@@ -77,13 +80,13 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         } else {
           // first trigger has happened, check if time for second
-          if ( curTime > trigger.time + 100 ) {
+          if (curTime > trigger.time + 100) {
             // time for second
             console.log('hit second')
             document.querySelector('body').style.background = seq[seqPos];
             seqPos = (seqPos + 1) == seq.length ? 0 : seqPos + 1;
             trigger.first = false;
-            trigger.time = curTime;
+            trigger.time = curTi
           } else {
             // before second
             console.log(curTime, 'noo')
@@ -101,13 +104,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     loop();
-
-  }
-
-  var soundNotAllowed = function() {
+  }).catch(function() {
     alert('please allow access to your microphone');
-  }
-
-  navigator.getUserMedia({ audio: true }, soundAllowed, soundNotAllowed);
+  })
 
 })
