@@ -3,6 +3,11 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 const path = require('path');
+
+var browserSync = require('browser-sync');
+var bs = browserSync.create().init({ logSnippet: false });
+app.use(require('connect-browser-sync')(bs));
+
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, '../views/pug'));
 
@@ -14,9 +19,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/sound', function (req, res) {
-  res.render('sound', {
-    debug: req.query.debug
-  });
+  res.render('sound');
 });
 
 app.get('/cp', function (req, res) {

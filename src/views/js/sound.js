@@ -42,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   navigator.mediaDevices.getUserMedia({
-    audio: true
+    audio: true,
+    video: false
   }).then(function(stream) {
     //Audio stops listening in FF without // window.persistAudioStream = stream;
     //https://bugzilla.mozilla.org/show_bug.cgi?id=965483
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.persistAudioStream = stream;
 
     var analyser = context.createAnalyser();
-
+    console.log(stream.getAudioTracks())
     var source = context.createMediaStreamSource(stream);
     source.connect(analyser);
     analyser.fftSize = 1024;
@@ -86,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('body').style.background = seq[seqPos];
             seqPos = (seqPos + 1) == seq.length ? 0 : seqPos + 1;
             trigger.first = false;
-            trigger.time = curTi
+            trigger.time = curTime;
           } else {
             // before second
             console.log(curTime, 'noo')

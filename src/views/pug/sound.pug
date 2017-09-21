@@ -1,11 +1,9 @@
 doctype html
 html
   head
-    link(href="/css/style.css" rel="stylesheet" type="text/css")
-    script(src="/js/vendor.js")
+    //- link(href="/css/style.css" rel="stylesheet" type="text/css")
+    //- script(src="/js/vendor.js")
     
-    if debug == "true"
-      script(src="https://vorlon.dev1.kdoveton.com/vorlon.js")
-    script(src="/socket.io/socket.io.js")
-    script(src="/common/js/sound.js")
-  body
+    script(async src="/socket.io/socket.io.js")
+    script(async src="/common/js/sound.js")
+  body(style="min-height: 100vh;")
